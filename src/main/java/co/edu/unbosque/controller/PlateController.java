@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.unbosque.model.MainCourse;
 import co.edu.unbosque.model.Plate;
 import co.edu.unbosque.services.PlateService;
 import jakarta.transaction.Transactional;
@@ -33,7 +34,7 @@ public class PlateController {
 	}
 
 	@PostMapping(path = "/createplatejson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createNewUserWithJson(@RequestBody Plate newPlate) {
+	public ResponseEntity<String> createNewPlateWithJson(@RequestBody Plate newPlate) {
 		int status = plateServ.create(newPlate);
 
 		if (status == 0) {
@@ -45,8 +46,21 @@ public class PlateController {
 		}
 
 	}
+	
+	@PostMapping(path = "/updateplatejson/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updatePlateWithJson(@RequestBody Plate newPlate, @PathVariable Long id) {
+		int status = plateServ.updateById(id, newPlate);
 
-	@GetMapping(path = "getallplates")
+		if (status == 0) {
+			return new ResponseEntity<String>("Plate updated succesfully", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<String>("Error updating the maincourse maybe the plate is already taken",
+					HttpStatus.NOT_ACCEPTABLE);
+		}
+
+	}
+
+	@GetMapping(path = "/getallplates")
 	public ResponseEntity<List<Plate>> getAll() {
 		List<Plate> plates = plateServ.getAll();
 

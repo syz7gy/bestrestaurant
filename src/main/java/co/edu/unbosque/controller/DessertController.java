@@ -46,7 +46,7 @@ public class DessertController {
 
 	}
 
-	@GetMapping(path = "getalldesserts")
+	@GetMapping(path = "/getalldesserts")
 	public ResponseEntity<List<Dessert>> getAll() {
 		List<Dessert> desserts = dessServ.getAll();
 

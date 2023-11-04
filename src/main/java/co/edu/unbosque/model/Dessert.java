@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import jakarta.persistence.Table;
 public class Dessert extends Plate {
 	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+	@Column(unique = true)
 	private boolean isBittersweet;
 	
 	public Dessert() {

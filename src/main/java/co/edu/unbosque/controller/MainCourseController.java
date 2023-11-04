@@ -20,7 +20,7 @@ import co.edu.unbosque.services.MainCourseService;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/maincourse")
+@RequestMapping("/MainCourse	")
 @CrossOrigin(origins = { "http://localhost:8080", "http://localhost:8081", "*" })
 @Transactional
 public class MainCourseController {
@@ -33,7 +33,7 @@ public class MainCourseController {
 	}
 
 	@PostMapping(path = "/createmaincoursejson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createNewmaincourseWithJson(@RequestBody MainCourse newMainCo) {
+	public ResponseEntity<String> createNewMainCourseWithJson(@RequestBody MainCourse newMainCo) {
 		int status = mainCoServ.create(newMainCo);
 
 		if (status == 0) {
@@ -51,15 +51,15 @@ public class MainCourseController {
 		int status = mainCoServ.updateById(id, newMainCo);
 
 		if (status == 0) {
-			return new ResponseEntity<String>("maincourse updated succesfully", HttpStatus.CREATED);
+			return new ResponseEntity<String>("Main course updated succesfully", HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<String>("Error updating the maincourse maybe the maincoursename is already taken",
+			return new ResponseEntity<String>("Error updating the main course maybe the main course is already taken",
 					HttpStatus.NOT_ACCEPTABLE);
 		}
 
 	}
 
-	@GetMapping(path = "getallmaincourses")
+	@GetMapping(path = "/getallmaincourses")
 	public ResponseEntity<List<MainCourse>> getAll() {
 		List<MainCourse> mainCourses = mainCoServ.getAll();
 
