@@ -16,56 +16,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.model.Plate;
-import co.edu.unbosque.services.AnimalService;
+import co.edu.unbosque.services.PlateService;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/Plate")
 @CrossOrigin(origins = { "http://localhost:8080", "http://localhost:8081", "*" })
 @Transactional
-public class AnimalController {
-
+public class PlateController {
+	
 	@Autowired
-	private AnimalService animalServ;
-
-	public AnimalController() {
+	private PlateService plateServ;
+	
+	public PlateController() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@PostMapping(path = "/createanimaljson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createNewUserWithJson(@RequestBody Plate newAnimal) {
-		int status = animalServ.create(newAnimal);
+	@PostMapping(path = "/createplatejson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> createNewUserWithJson(@RequestBody Plate newPlate) {
+		int status = plateServ.create(newPlate);
 
 		if (status == 0) {
-			return new ResponseEntity<String>("Animal created succesfully", HttpStatus.CREATED);
+			return new ResponseEntity<String>("plate created succesfully", HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<String>("Error creating the animal",
+			return new ResponseEntity<String>("Error creating the plate",
 					HttpStatus.NOT_ACCEPTABLE);
 
 		}
 
 	}
 
-	@GetMapping(path = "getallanimals")
+	@GetMapping(path = "getallplates")
 	public ResponseEntity<List<Plate>> getAll() {
-		List<Plate> animals = animalServ.getAll();
+		List<Plate> plates = plateServ.getAll();
 
-		if (animals.isEmpty()) {
-			return new ResponseEntity<List<Plate>>(animals, HttpStatus.NO_CONTENT);
+		if (plates.isEmpty()) {
+			return new ResponseEntity<List<Plate>>(plates, HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<List<Plate>>(animals, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Plate>>(plates, HttpStatus.ACCEPTED);
 		}
 	}
 
-	@DeleteMapping(path = "/deleteanimalsbyid/{id}")
+	@DeleteMapping(path = "/deleteplatesbyid/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable Long id) {
-		int status = animalServ.deleteById(id);
+		int status = plateServ.deleteById(id);
 
 		if (status == 0) {
-			return new ResponseEntity<String>("Animal eliminated succesfully", HttpStatus.ACCEPTED);
+			return new ResponseEntity<String>("plate eliminated succesfully", HttpStatus.ACCEPTED);
 
 		} else {
-			return new ResponseEntity<String>("Error deleting the animal", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("Error deleting the plate", HttpStatus.NOT_FOUND);
 		}
 
 	}

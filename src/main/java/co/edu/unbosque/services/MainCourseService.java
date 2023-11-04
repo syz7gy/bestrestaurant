@@ -6,22 +6,23 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.unbosque.model.Dessert;
 import co.edu.unbosque.model.MainCourse;
-import co.edu.unbosque.repository.DogRepository;
+import co.edu.unbosque.repository.MainCourseRepository;
 
 @Service
-public class DogService implements CRUDOperations<MainCourse>{
+public class MainCourseService implements CRUDOperations<MainCourse>{
 
 	@Autowired
-	private DogRepository dogRepo;
+	private MainCourseRepository mainCoRepo;
 	
-	public DogService() {
+	public MainCourseService() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean findNameAlreadyTaken(MainCourse newDog) {
+	public boolean findNameAlreadyTaken(MainCourse newMainCo) {
 
-		Optional<MainCourse> found = dogRepo.findByNombre(newDog.getNombre());
+		Optional<MainCourse> found = mainCoRepo.findByNombre(newMainCo.getPlateName());
 
 		return found.isPresent() ? true : false;
 	}
@@ -31,22 +32,22 @@ public class DogService implements CRUDOperations<MainCourse>{
 		if (findNameAlreadyTaken(data)) {
 			return 1;
 		} else {
-			dogRepo.save(data);
+			mainCoRepo.save(data);
 			return 0;
 		}
 	}
 
 	@Override
 	public List<MainCourse> getAll() {
-		return dogRepo.findAll();
+		return mainCoRepo.findAll();
 	}
 
 	@Override
 	public int deleteById(Long id) {
-		Optional<MainCourse> found = dogRepo.findById(id);
+		Optional<MainCourse> found = mainCoRepo.findById(id);
 
 		if (found.isPresent()) {
-			dogRepo.delete(found.get());
+			mainCoRepo.delete(found.get());
 			return 0;
 		} else {
 			return 1;
@@ -57,17 +58,18 @@ public class DogService implements CRUDOperations<MainCourse>{
 	@Override
 	public int updateById(Long id, MainCourse newData) {
 
-		Optional<MainCourse> found = dogRepo.findById(id);
-		Optional<MainCourse> newFound = dogRepo.findByNombre(newData.getNombre());
+		Optional<MainCourse> found = mainCoRepo.findById(id);
+		Optional<MainCourse> newFound = mainCoRepo.findByNombre(newData.getPlateName());
 
 		if (found.isPresent() && !newFound.isPresent()) {
 
 			MainCourse temp = found.get();
-			temp.setNombre(newData.getNombre());
-			temp.setRaza(newData.getRaza());
-			temp.setColorPelo(newData.getColorPelo());
-			temp.setEdadAños(newData.getEdadAños());
-			dogRepo.save(temp);
+			temp.setPlateName(newData.getPlateName());
+			temp.setPrice(newData.getPrice());
+			temp.setVegeterian(newData.isVegeterian());
+			temp.setIngredients(newData.getIngredients());
+			temp.setDateTime(newData.getDateTime());
+			mainCoRepo.save(temp);
 			return 0;
 		} else if (found.isPresent() && newFound.isPresent()) {
 			return 1;
@@ -81,12 +83,12 @@ public class DogService implements CRUDOperations<MainCourse>{
 
 	@Override
 	public long count() {
-		return dogRepo.count();
+		return mainCoRepo.count();
 	}
 
 	@Override
 	public boolean exists(Long id) {
-		return dogRepo.existsById(id) ? true : false;
+		return mainCoRepo.existsById(id) ? true : false;
 	}
 	
 	

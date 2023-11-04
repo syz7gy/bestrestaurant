@@ -11,11 +11,17 @@ import co.edu.unbosque.repository.PlateRepository;
 
 @Service
 public class PlateService implements CRUDOperations<Plate> {
+	
 	@Autowired
 	private PlateRepository plateRepo;
 
 	public PlateService() {
 
+	}
+
+	public PlateService(PlateRepository plateRepo) {
+		super();
+		this.plateRepo = plateRepo;
 	}
 
 	public boolean findNameAlreadyTaken(Plate newPlate) {

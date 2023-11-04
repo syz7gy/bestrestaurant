@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.unbosque.model.Dessert;
-import co.edu.unbosque.repository.CatRepository;
+import co.edu.unbosque.repository.DessertRepository;
 
 @Service
-public class CatService implements CRUDOperations<Dessert> {
+public class DessertService implements CRUDOperations<Dessert> {
 
 	@Autowired
-	private CatRepository catRepo;
+	private DessertRepository dessRepo;
 	
-	public CatService() {
+	public DessertService() {
 		// TODO Auto-generated constructor stub
 	}
-	public boolean findNameAlreadyTaken(Dessert newCat) {
+	public boolean findNameAlreadyTaken(Dessert newData) {
 
-		Optional<Dessert> found = catRepo.findByNombre(newCat.getNombre());
+		Optional<Dessert> found = dessRepo.findByNombre(newData.getPlateName());
 
 		return found.isPresent() ? true : false;
 	}
@@ -30,22 +30,22 @@ public class CatService implements CRUDOperations<Dessert> {
 		if (findNameAlreadyTaken(data)) {
 			return 1;
 		} else {
-			catRepo.save(data);
+			dessRepo.save(data);
 			return 0;
 		}
 	}
 
 	@Override
 	public List<Dessert> getAll() {
-		return catRepo.findAll();
+		return dessRepo.findAll();
 	}
 
 	@Override
 	public int deleteById(Long id) {
-		Optional<Dessert> found = catRepo.findById(id);
+		Optional<Dessert> found = dessRepo.findById(id);
 
 		if (found.isPresent()) {
-			catRepo.delete(found.get());
+			dessRepo.delete(found.get());
 			return 0;
 		} else {
 			return 1;
@@ -56,17 +56,19 @@ public class CatService implements CRUDOperations<Dessert> {
 	@Override
 	public int updateById(Long id, Dessert newData) {
 
-		Optional<Dessert> found = catRepo.findById(id);
-		Optional<Dessert> newFound = catRepo.findByNombre(newData.getNombre());
+		Optional<Dessert> found = dessRepo.findById(id);
+		Optional<Dessert> newFound = dessRepo.findByNombre(newData.getPlateName());
 
 		if (found.isPresent() && !newFound.isPresent()) {
 
 			Dessert temp = found.get();
-			temp.setNombre(newData.getNombre());
-			temp.setRaza(newData.getRaza());
-			temp.setColorPelo(newData.getColorPelo());
-			temp.setHorasSueño(newData.getHorasSueño());
-			catRepo.save(temp);
+			temp.setPlateName(newData.getPlateName());
+			temp.setPrice(newData.getPrice());
+			temp.setVegeterian(newData.isVegeterian());
+			temp.setIngredients(newData.getIngredients());
+			temp.setDateTime(newData.getDateTime());
+			temp.setBittersweet(newData.isBittersweet());
+			dessRepo.save(temp);
 			return 0;
 		} else if (found.isPresent() && newFound.isPresent()) {
 			return 1;
@@ -80,12 +82,12 @@ public class CatService implements CRUDOperations<Dessert> {
 
 	@Override
 	public long count() {
-		return catRepo.count();
+		return dessRepo.count();
 	}
 
 	@Override
 	public boolean exists(Long id) {
-		return catRepo.existsById(id) ? true : false;
+		return dessRepo.existsById(id) ? true : false;
 	}
 
 	

@@ -1,5 +1,7 @@
 package co.edu.unbosque.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import jakarta.persistence.DiscriminatorValue;
@@ -7,21 +9,37 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@DiscriminatorValue("cat")
+@Table(name = "maincourses")
+@DiscriminatorValue("dessert")
 public class Dessert extends Plate {
 	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-	private int horasSueño;
+	private boolean isBittersweet;
 	
 	public Dessert() {
 		
 	}
 
-	public Dessert( int horasSueño) {
+	public Dessert(Long id, boolean isBittersweet) {
 		super();
-		this.horasSueño = horasSueño;
+		this.id = id;
+		this.isBittersweet = isBittersweet;
+	}
+
+	public Dessert(Long id, String plateName, String price, boolean isVegeterian, ArrayList<String> ingredients,
+			LocalDateTime dateTime) {
+		super(id, plateName, price, isVegeterian, ingredients, dateTime);
+		// TODO Auto-generated constructor stub
+	}
+
+	public Dessert(Long id, String plateName, String price, boolean isVegeterian, ArrayList<String> ingredients,
+			LocalDateTime dateTime, Long id2, boolean isBittersweet) {
+		super(id, plateName, price, isVegeterian, ingredients, dateTime);
+		id = id2;
+		this.isBittersweet = isBittersweet;
 	}
 
 	public Long getId() {
@@ -32,17 +50,17 @@ public class Dessert extends Plate {
 		this.id = id;
 	}
 
-	public int getHorasSueño() {
-		return horasSueño;
+	public boolean isBittersweet() {
+		return isBittersweet;
 	}
 
-	public void setHorasSueño(int horasSueño) {
-		this.horasSueño = horasSueño;
+	public void setBittersweet(boolean isBittersweet) {
+		this.isBittersweet = isBittersweet;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(horasSueño, id);
+		return Objects.hash(isBittersweet, id);
 	}
 
 	@Override
@@ -54,13 +72,15 @@ public class Dessert extends Plate {
 		if (getClass() != obj.getClass())
 			return false;
 		Dessert other = (Dessert) obj;
-		return horasSueño == other.horasSueño && Objects.equals(id, other.id);
+		return isBittersweet == other.isBittersweet && Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "Cat [id=" + id + ", horasSueño=" + horasSueño + "]";
+		return "Dessert [id=" + id + ", isBittersweet=" + isBittersweet + "]";
 	}
+
+	
 	
 	
 

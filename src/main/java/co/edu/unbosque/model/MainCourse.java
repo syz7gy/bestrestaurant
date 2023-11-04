@@ -1,5 +1,7 @@
 package co.edu.unbosque.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import jakarta.persistence.DiscriminatorValue;
@@ -7,21 +9,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@DiscriminatorValue("dog")
+@Table(name = "dessert")
+@DiscriminatorValue("maincourse")
 public class MainCourse extends Plate{
 
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-	private int edadAños;
 
 	public MainCourse() {
 
 	}
 
-	public MainCourse( int edadAños) {
-		super();
-		this.edadAños = edadAños;
+	public MainCourse(Long id, String plateName, String price, boolean isVegeterian, ArrayList<String> ingredients,
+			LocalDateTime dateTime) {
+		super(id, plateName, price, isVegeterian, ingredients, dateTime);
+		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {
@@ -32,17 +36,12 @@ public class MainCourse extends Plate{
 		this.id = id;
 	}
 
-	public int getEdadAños() {
-		return edadAños;
-	}
-
-	public void setEdadAños(int edadAños) {
-		this.edadAños = edadAños;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(edadAños, id);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(id);
+		return result;
 	}
 
 	@Override
@@ -54,12 +53,16 @@ public class MainCourse extends Plate{
 		if (getClass() != obj.getClass())
 			return false;
 		MainCourse other = (MainCourse) obj;
-		return edadAños == other.edadAños && Objects.equals(id, other.id);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "Dog [id=" + id + ", edadAños=" + edadAños + "]";
+		return "MainCourse [id=" + id + "]";
 	}
+
+	
+
+	
 
 }
